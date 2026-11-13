@@ -72,7 +72,7 @@ class PostController extends Controller
             })
             ->orderByDesc('is_pinned')
             ->latest('published_at')
-            ->paginate(6) // Keep your exact Lab 10 per-page number
+            ->paginate(7) // Keep your exact Lab 10 per-page number
             ->withQueryString();
 
         $tags = Tag::orderBy('name')->get();
