@@ -57,8 +57,8 @@ class PostController extends Controller
         $posts = Post::with(['author', 'tags'])
             ->withCount('comments')
             ->where('is_published', true)
-            ->when($request->filled('search'), function ($query) use ($request) {
-                $search = $request->input('search');
+            ->when($request->filled('q'), function ($query) use ($request) {
+                $search = $request->input('q');
                 $query->where(function ($q) use ($search) {
                     $q->where('title', 'like', "%{$search}%")
                       ->orWhere('body', 'like', "%{$search}%");
@@ -76,8 +76,9 @@ class PostController extends Controller
             ->withQueryString();
 
         $tags = Tag::orderBy('name')->get();
+        $categories = ['Announcement', 'Health', 'Infrastructure', 'Events', 'Safety'];
 
-        return view('posts.index', compact('posts', 'tags'));
+        return view('posts.index', compact('posts', 'tags', 'categories'));
     }
 
     public function create(): View
